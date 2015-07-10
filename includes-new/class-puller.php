@@ -145,6 +145,9 @@ abstract class Puller {
 			$existing_post_query->the_post();
 			$post->post_data['ID'] = get_the_ID();
 
+			// Maintain the post's status.
+			$post->post_data['post_status'] = get_post_status();
+
 			// Update the existing post.
 			$post_id = wp_update_post( $post->post_data, true );
 		} else {
