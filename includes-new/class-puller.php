@@ -151,7 +151,7 @@ abstract class Puller {
 			//  Include the syndicated_guid so we can update this post later.
 			$post->post_meta['syndicated_guid'] = $syndicated_guid;
 
-			//The post is new, insert it.
+			// The post is new, insert it.
 			$post_id = wp_insert_post( $post->post_data, true );
 		}
 		wp_reset_postdata();
