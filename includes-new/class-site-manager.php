@@ -117,8 +117,80 @@ class Site_Manager {
 		return array();
 	}
 
+	/**
+	 * Get site data from a site group.
+	 *
+	 * @param $post_ID The id of the site group.
+	 *
+	 * @return array
+	 *          post_ID        The passed post ID
+	 *          selected_sites A list of selected sites.
+	 *          removed_sites  A list of removed sites.
+	 */
 	public function get_sites_by_post_ID( $post_ID ) {
-		// TODO
+		$all_sites = $this->get_site_index();
+
+		$selected_sitegroups    = get_post_meta( $post_ID, '_syn_selected_sitegroups', true );
+		$selected_sitegroups    = !empty( $selected_sitegroups ) ? $selected_sitegroups : array() ;
+		$old_sitegroups         = get_post_meta( $post_ID, '_syn_old_sitegroups', true );
+		$old_sitegroups         = !empty( $old_sitegroups ) ? $old_sitegroups : array() ;
+		$removed_sitegroups     = array_diff( $old_sitegroups, $selected_sitegroups );
+
+		// Initialize return object.
+		$data = array(
+			'post_ID'           => $post_ID,
+			'selected_sites'    => array(),
+			'removed_sites'     => array(),
+		);
+
+		// Find sites in selected site groups.
+		if( ! empty( $selected_sitegroups ) ) {
+
+			foreach( $selected_sitegroups as $selected_sitegroup ) {
+
+				// get all the sites in the sitegroup
+				$sites = $all_sites['by_site_group'][ $selected_sitegroup ];
+				if( empty( $sites ) ) {
+					continue;
+				}
+
+				foreach( $sites as $site ) {
+					$site_enabled = get_post_meta( $site->ID, 'syn_site_enabled', true);
+					if( $site_enabled == 'on' ) {
+						$data[ 'selected_sites' ][] = $site;
+					}
+				}
+
+			}
+
+		}
+
+		// Find sites in removed site groups.
+		if( ! empty( $removed_sitegroups ) ) {
+
+			foreach( $removed_sitegroups as $removed_sitegroup ) {
+
+				// get all the sites in the sitegroup
+				$sites = $all_sites['by_site_group'][ $removed_sitegroup ];
+				if( empty( $sites ) ) {
+					continue;
+				}
+
+				foreach( $sites as $site ) {
+					$site_enabled = get_post_meta( $site->ID, 'syn_site_enabled', true);
+					if( $site_enabled == 'on' ) {
+						$data[ 'removed_sites' ][] = $site;
+					}
+				}
+
+			}
+
+		}
+
+		update_post_meta( $post_ID, '_syn_old_sitegroups', $selected_sitegroups );
+
+		return $data;
+
 	}
 
 	public function prime_site_cache( $post_id ) {
