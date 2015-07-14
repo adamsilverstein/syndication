@@ -32,8 +32,6 @@ class Bootstrap {
 		new Syndication_Event_Counter();
 		new Syndication_Site_Failure_Monitor();
 
-		// Load the runner.
-		new Syndication_Runner();
 
 		new Upgrade_Tasks();
 		new Legacy_Hooks();
@@ -43,6 +41,9 @@ class Bootstrap {
 		new Admin\Site_List_Screen();
 		new Admin\Site_Edit_Screen( $client_manager );
 		new Admin\Post_Edit_Screen();
+
+		// Load the runner.
+		new Syndication_Runner();
 
 		// Bootstrap individual built-in clients.
 		new Clients\Test\Bootstrap();
