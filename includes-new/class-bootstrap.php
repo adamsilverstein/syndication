@@ -32,6 +32,9 @@ class Bootstrap {
 		new Syndication_Event_Counter();
 		new Syndication_Site_Failure_Monitor();
 
+		// Load the runner.
+		new Syndication_Runner();
+
 		new Upgrade_Tasks();
 		new Legacy_Hooks();
 
