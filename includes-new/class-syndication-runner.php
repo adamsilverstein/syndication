@@ -90,6 +90,50 @@ class Syndication_Runner {
 		return ( $processed_posts );
 	}
 
+	public function pull_content( $sites = array() ) {
+		add_filter( 'http_headers_useragent', array( $this, 'syndication_user_agent' ) );
+
+		if ( empty( $sites ) ) {
+			$sites = $this->pull_get_selected_sites(); //@todo implement/move
+		}
+
+		// Treat this process as an import.
+		if ( ! defined( 'WP_IMPORTING' ) ) {
+			define( 'WP_IMPORTING', true );
+		}
+
+		// Temporarily suspend comment and term counting and cache invalidation.
+		wp_defer_term_counting( true );
+		wp_defer_comment_counting( true );
+		wp_suspend_cache_invalidation( true );
+
+		// Keep track of posts that are added or changed.
+		$updated_post_ids = array();
+		//error_log( 'pull' );
+		//error_log( json_encode( $sites ) );
+
+		foreach( $sites as $site_id ) {
+
+			$site_updated_post_ids = $this->pull_site( $site_id );
+			$updated_post_ids      = array_merge( $updated_post_ids, $site_updated_post_ids );
+
+			update_post_meta( $site_id, 'syn_last_pull_time', current_time( 'timestamp', 1 ) );
+		}
+
+		// Resume comment and term counting and cache invalidation.
+		wp_suspend_cache_invalidation( false );
+		wp_defer_term_counting( false );
+		wp_defer_comment_counting( false );
+
+		// Clear the caches for any posts that were updated.
+		foreach ( $updated_post_ids as $updated_post_id ) {
+			clean_post_cache( $updated_post_id );
+		}
+
+		remove_filter( 'http_headers_useragent', array( $this, 'syndication_user_agent' ) );
+	}
+
+
 	/**
 	 * Handle save_post and delete_post for syn_site posts. If a syn_site post
 	 * is updated or deleted we should reprocess any scheduled pull jobs.
