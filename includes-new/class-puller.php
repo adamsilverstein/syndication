@@ -140,6 +140,7 @@ abstract class Puller {
 		);
 		$existing_post_query = new \WP_Query( $query_args );
 		// If the post has already been consumed, update it; otherwise insert it.
+		// @todo Only update if updates inabled in settings
 		if ( $existing_post_query->have_posts() ) {
 			// Existing post, set the post ID for update.
 			$existing_post_query->the_post();
