@@ -69,6 +69,28 @@ class Syndication_Runner {
 		add_action( 'syn_pull_content', array( $this, 'pull_content' ), 10, 1 );
 	}
 	/**
+	 * Pull a single site.
+	 *
+	 * @param  site_id The site to pull.
+	 *
+	 * @return Array   An array of updated and added post ids.
+	 */
+	function pull_site( $site_id ) {
+		global $client_manager;
+
+		// Fetch the site's client/transport type name
+		$client_transport_type = get_post_meta( $site_id, 'syn_transport_type', true );
+
+		// Fetch the site's client by name
+		$client_details = $client_manager->get_pull_client( $client_transport_type );
+
+		// Run the client's process_site method
+		$client          = new $client_details['class'];
+		$processed_posts = $client->process_site( $site_id, $client );
+		return ( $processed_posts );
+	}
+
+	/**
 	 * Handle save_post and delete_post for syn_site posts. If a syn_site post
 	 * is updated or deleted we should reprocess any scheduled pull jobs.
 	 *
