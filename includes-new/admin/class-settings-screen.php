@@ -22,6 +22,13 @@ class Settings_Screen {
 		register_setting( 'push_syndicate_settings', 'push_syndication_max_pull_attempts', array( $this, 'validate_max_pull_attempts' ) );
 	}
 
+	/**
+	 * Validate the push syndication settings.
+	 *
+	 * @param $raw_settings array Settings to validate.
+	 *
+	 * @return array              Validated settings.
+	 */
 	public function push_syndicate_settings_validate( $raw_settings ) {
 
 		$settings                               = array();
