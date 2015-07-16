@@ -86,9 +86,21 @@ class Syndication_Runner {
 		$client_details = $client_manager->get_pull_client( $client_transport_type );
 
 		// Run the client's process_site method
-		$client          = new $client_details['class'];
-		$processed_posts = $client->process_site( $site_id, $client );
-		return ( $processed_posts );
+		$client            = new $client_details['class'];
+		$updated_post_ids  = array();
+
+		$processed_posts   = $client->process_site( $site_id, $client );
+
+		/**
+		 * Always return only the processed post IDs.
+		 */
+		if ( $processed_posts ) {
+
+			$updated_post_data = wp_list_pluck( $processed_posts, 'post_data' );
+			$updated_post_ids  = wp_list_pluck( $updated_post_data, 'ID' );
+		}
+
+		return ( $updated_post_ids );
 	}
 
 	public function pull_content( $sites = array() ) {
