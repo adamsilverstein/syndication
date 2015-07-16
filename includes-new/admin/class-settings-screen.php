@@ -121,7 +121,7 @@ class Settings_Screen {
 	}
 
 	public function display_pull_sitegroups_selection() {
-
+		global $settings_manager;
 		// get all sitegroups
 		$sitegroups = get_terms( 'syn_sitegroup', array(
 			'fields'        => 'all',
@@ -142,7 +142,7 @@ class Settings_Screen {
 
 			<p>
 				<label>
-					<input type="checkbox" name="push_syndicate_settings[selected_pull_sitegroups][]" value="<?php echo esc_html( $sitegroup->slug ); ?>" <?php $this->checked_array( $sitegroup->slug, $this->push_syndicate_settings['selected_pull_sitegroups'] ) ?> />
+					<input type="checkbox" name="push_syndicate_settings[selected_pull_sitegroups][]" value="<?php echo esc_html( $sitegroup->slug ); ?>" <?php $this->checked_array( $sitegroup->slug, $settings_manager->get_setting( 'selected_pull_sitegroups' ) ) ?> />
 					<?php echo esc_html( $sitegroup->name ); ?>
 				</label>
 				<?php echo esc_html( $sitegroup->description ); ?>
@@ -159,7 +159,8 @@ class Settings_Screen {
 	}
 
 	public function display_time_interval_selection() {
-		echo '<input type="text" size="10" name="push_syndicate_settings[pull_time_interval]" value="' . esc_attr( $this->push_syndicate_settings['pull_time_interval'] ) . '"/>';
+		global $settings_manager;
+		echo '<input type="text" size="10" name="push_syndicate_settings[pull_time_interval]" value="' . esc_attr( $settings_manager->get_setting( 'pull_time_interval' ) ) . '"/>';
 	}
 
 	/**
@@ -195,9 +196,10 @@ class Settings_Screen {
 	}
 
 	public function display_update_pulled_posts_selection() {
+		global $settings_manager;
 		// @TODO refractor this
 		echo '<input type="checkbox" name="push_syndicate_settings[update_pulled_posts]" value="on" ';
-		echo checked( $this->push_syndicate_settings['update_pulled_posts'], 'on' ) . ' />';
+		echo checked( $settings_manager->get_setting( 'update_pulled_posts' ), 'on' ) . ' />';
 	}
 
 	public function display_push_post_types_description() {
@@ -205,7 +207,7 @@ class Settings_Screen {
 	}
 
 	public function display_post_types_selection() {
-
+		global $settings_manager;
 		// @TODO add more suitable filters
 		$post_types = get_post_types( array( 'public' => true ) );
 
@@ -217,7 +219,7 @@ class Settings_Screen {
 
 			<li>
 				<label>
-					<input type="checkbox" name="push_syndicate_settings[selected_post_types][]" value="<?php echo esc_attr( $post_type ); ?>" <?php echo $this->checked_array( $post_type, $this->push_syndicate_settings['selected_post_types'] ); ?> />
+					<input type="checkbox" name="push_syndicate_settings[selected_post_types][]" value="<?php echo esc_attr( $post_type ); ?>" <?php echo $this->checked_array( $post_type, $settings_manager->get_setting( 'selected_post_types' ) ); ?> />
 					<?php echo esc_html( $post_type ); ?>
 				</label>
 			</li>
@@ -235,17 +237,20 @@ class Settings_Screen {
 	}
 
 	public function display_delete_pushed_posts_selection() {
+		global $settings_manager;
 		// @TODO refractor this
 		echo '<input type="checkbox" name="push_syndicate_settings[delete_pushed_posts]" value="on" ';
-		echo checked( $this->push_syndicate_settings['delete_pushed_posts'], 'on' ) . ' />';
+		echo checked( $settings_manager->get_setting( 'delete_pushed_posts' ), 'on' ) . ' />';
 	}
 
 	public function display_client_id() {
-		echo '<input type="text" size=100 name="push_syndicate_settings[client_id]" value="' . esc_attr( $this->push_syndicate_settings['client_id'] ) . '"/>';
+		global $settings_manager;
+		echo '<input type="text" size=100 name="push_syndicate_settings[client_id]" value="' . esc_attr( $settings_manager->get_setting( 'client_id' ) ) . '"/>';
 	}
 
 	public function display_client_secret() {
-		echo '<input type="text" size=100 name="push_syndicate_settings[client_secret]" value="' . esc_attr( $this->push_syndicate_settings['client_secret'] ) . '"/>';
+		global $settings_manager;
+		echo '<input type="text" size=100 name="push_syndicate_settings[client_secret]" value="' . esc_attr( $settings_manager->get_setting( 'client_secret' ) ) . '"/>';
 	}
 
 	public function display_sitegroups_selection() {

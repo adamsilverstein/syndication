@@ -52,8 +52,6 @@ class Syndication_Runner {
 	}
 
 	public function init() {
-		$this->push_syndicate_settings = wp_parse_args( (array) get_option( 'push_syndicate_settings' ), $this->push_syndicate_default_settings );
-
 		$this->version = get_option( 'syn_version' );
 	}
 
@@ -246,10 +244,11 @@ class Syndication_Runner {
 	}
 
 	public function cron_add_pull_time_interval( $schedules ) {
+		global $settings_manager;
 
 		// Adds the custom time interval to the existing schedules.
 		$schedules['syn_pull_time_interval'] = array(
-			'interval' => intval( $this->push_syndicate_settings['pull_time_interval'] ),
+			'interval' => intval( $settings_manager->get_setting( 'pull_time_interval' ) ),
 			'display'  => esc_html__( 'Pull Time Interval', 'push-syndication' )
 		);
 

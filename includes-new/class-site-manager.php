@@ -83,7 +83,9 @@ class Site_Manager {
 	}
 
 	public function pull_get_selected_sites() {
-		$selected_sitegroups = array( 'local' ); // $this->push_syndicate_settings['selected_pull_sitegroups'];
+		global $settings_manager;
+
+		$selected_sitegroups = $settings_manager->get_setting( 'selected_pull_sitegroups' );
 
 		$sites = array();
 		foreach( $selected_sitegroups as $selected_sitegroup ) {
