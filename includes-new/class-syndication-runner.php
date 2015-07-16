@@ -104,11 +104,16 @@ class Syndication_Runner {
 	}
 
 	public function pull_content( $sites = array() ) {
+		global $site_manager;
+
 		add_filter( 'http_headers_useragent', array( $this, 'syndication_user_agent' ) );
 
 		if ( empty( $sites ) ) {
 			$sites = $site_manager->pull_get_selected_sites();
 		}
+
+		$enabled_sites = $site_manager->get_sites_by_status( 'enabled' );
+		$sites         = array_intersect( $sites, $enabled_sites );
 
 		// Treat this process as an import.
 		if ( ! defined( 'WP_IMPORTING' ) ) {
