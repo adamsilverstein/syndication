@@ -72,9 +72,9 @@ class Syndication_Runner {
 	/**
 	 * Pull a single site.
 	 *
-	 * @param  site_id The site to pull.
+	 * @param  site_id string The site to pull.
 	 *
-	 * @return Array   An array of updated and added post ids.
+	 * @return Array          An array of updated and added post ids.
 	 */
 	function pull_site( $site_id ) {
 		global $client_manager;
