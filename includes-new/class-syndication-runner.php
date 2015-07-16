@@ -168,8 +168,9 @@ class Syndication_Runner {
 	 */
 	public function refresh_pull_jobs()	{
 		global $site_manager;
-		$sites = $site_manager->pull_get_selected_sites();
-
+		$sites         = $site_manager->pull_get_selected_sites();
+		$enabled_sites = $site_manager->get_sites_by_status( 'enabled' );
+		$sites         = array_intersect( $sites, $enabled_sites );
 		$this->schedule_pull_content( $sites );
 	}
 
