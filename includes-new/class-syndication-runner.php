@@ -99,7 +99,7 @@ class Syndication_Runner {
 		add_filter( 'http_headers_useragent', array( $this, 'syndication_user_agent' ) );
 
 		if ( empty( $sites ) ) {
-			$sites = $this->pull_get_selected_sites(); //@todo implement/move
+			$sites = $site_manager->pull_get_selected_sites();
 		}
 
 		// Treat this process as an import.
