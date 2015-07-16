@@ -121,6 +121,18 @@ class Site_Manager {
 	}
 
 	/**
+	 * Retrieve a list of sites by status.
+	 */
+	public function get_sites_by_status( $status_slug ) {
+		$sites = $this->get_site_index();
+
+		if ( isset( $sites['by_status'][ $status_slug ] ) ) {
+			return $sites['by_status'][ $status_slug ];
+		}
+		return array();
+	}
+
+	/**
 	 * Get site data from a site group.
 	 *
 	 * @param $post_ID The id of the site group.
