@@ -22,6 +22,10 @@ class Bootstrap {
 		new Custom_Taxonomies\Sitegroup_Taxonomy();
 		new Cron();
 
+		// Settings helper.
+		global $settings_manager;
+		$settings_manager = new Syndication_Settings();
+
 		global $client_manager;
 		$client_manager = new Client_Manager();
 
