@@ -15,8 +15,6 @@ namespace Automattic\Syndication;
 class Syndication_Runner {
 	const CUSTOM_USER_AGENT = 'WordPress/Syndication Plugin';
 
-	public  $push_syndicate_settings;
-	public  $push_syndicate_default_settings;
 	public  $push_syndicate_transports;
 
 
