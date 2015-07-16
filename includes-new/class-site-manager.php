@@ -104,8 +104,6 @@ class Site_Manager {
 		$sites = $this->get_site_index();
 
 		if ( isset( $sites['by_site_group'][ $site_group_slug ] ) ) {
-			$site_post_ids = $sites['by_site_group'][ $site_group_slug ];
-
 			return $sites['by_site_group'][ $site_group_slug ];
 		}
 		return array();
