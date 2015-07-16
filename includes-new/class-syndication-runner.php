@@ -68,6 +68,11 @@ class Syndication_Runner {
 		add_action( 'syn_delete_content', array( $this, 'delete_content' ) );
 		add_action( 'syn_pull_content', array( $this, 'pull_content' ), 10, 1 );
 	}
+
+	public function syndication_user_agent( $user_agent ) {
+		return apply_filters( 'syn_pull_user_agent', self::CUSTOM_USER_AGENT );
+	}
+
 	/**
 	 * Pull a single site.
 	 *
