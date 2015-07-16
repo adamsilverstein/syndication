@@ -52,8 +52,9 @@ class Site_Manager {
 				'by_status' => array(),
 			);
 			foreach( (array) $results->posts as $site_post ) {
-				$site_enabled = (boolean) get_post_meta( $site_post->ID, 'syn_site_enabled', true);
-				$site_groups = wp_get_object_terms( $site_post->ID, 'syn_sitegroup' );
+				$site_enabled = get_post_meta( $site_post->ID, 'syn_site_enabled', true);
+				$site_groups  = wp_get_object_terms( $site_post->ID, 'syn_sitegroup' );
+				$site_enabled = 'on' === $site_enabled ? true : false;
 
 				$sites['all'][$site_post->ID] = $site_post;
 				if ( ! isset( $sites['by_status'][$site_enabled] ) || ! in_array( $site_post->ID, $sites['by_status'][$site_enabled] ) ) {
