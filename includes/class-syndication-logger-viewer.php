@@ -185,7 +185,7 @@ class Syndication_Logger_List_Table extends WP_List_Table {
 		$this->items = $this->found_data;
 	}
 
-	protected function extra_tablenav( $which ) {
+	public function extra_tablenav( $which ) {
 		?>
 		<div class="alignleft actions">
 			<?php
